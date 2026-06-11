@@ -1,0 +1,23 @@
+# mycelium-net — porque micélio > silício (e cogumelo > data center)
+# Feito com carinho, café e uns 3 reassistir de Code Geass
+[package]
+name = "mycelium-net"
+version = "0.1.0"
+edition = "2024"
+
+# All Hail Lelouch — essas dependências vão executar o plano
+[dependencies]
+candle-core = "0.8"    # pyon~ a chama do ML não se apagou, só trocou de linguagem
+candle-nn  = "0.8"     # CNN? mais como "Conexões Neuronais Nya~!"
+anyhow     = "1"        # qualquer erro vira piada, como Elfen Lied sem aviso
+eframe    = "0.34"      # GUI: a interface que o Lelouch usaria pra
+                          # manipular o mundo — se tivesse um mouse
+rand      = "0.9"       # aleatoriedade. O Geass das interfaces —
+                          # você nunca sabe o que vai acontecer
+csv       = "1.3"       # CSV parser. O arquivo que o Kirito insiste
+                          # que é um MMORPG mas é uma planilha
+image     = { version = "0.25", default-features = false, features = ["png"] }  # só PNG
+rustfft   = "6.4"       # FFT pra STFT — "O domínio da frequência
+                           # é onde a magia acontece" (Frieren, ep. 12)
+reqwest  = { version = "0.12", features = ["blocking", "json"] }
+serde_json = "1"

@@ -1,0 +1,7 @@
+/target
+R/
+dados/
+dados_test/
+images/
+docs/
+.DS_Store
