@@ -258,7 +258,14 @@ impl Pipeline {
 
     fn state_to_cnn_input(state: &[f64], grid: usize, device: &Device) -> anyhow::Result<Tensor> {
         let side = grid.max(4);
-        let flat: Vec<f32> = state.iter().map(|&x| x as f32).collect();
+        let needed = side * side;
+        let flat: Vec<f32> = if state.len() >= needed {
+            state[..needed].iter().map(|&x| x as f32).collect()
+        } else {
+            let mut v: Vec<f32> = state.iter().map(|&x| x as f32).collect();
+            v.resize(needed, 0.0);
+            v
+        };
         let t = Tensor::from_slice(&flat, (1, 1, side, side), device)?;
         Ok(t)
     }

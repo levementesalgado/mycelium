@@ -166,8 +166,13 @@ impl MyceliumGui {
                 self.pipe.extract_features(&seg.signal)
             }).collect();
         let labels: Vec<String> = self.user_labels.iter().map(|(_, l)| l.clone()).collect();
-        self.pipe.classifier.fit(&feats, &labels);
-        self.pipe.classes = self.pipe.classifier.classes.clone();
+        if self.mode == "rf" || self.mode.starts_with("random") {
+            self.pipe.rf.fit(&feats, &labels);
+            self.pipe.classes = self.pipe.rf.classes.clone();
+        } else {
+            self.pipe.classifier.fit(&feats, &labels);
+            self.pipe.classes = self.pipe.classifier.classes.clone();
+        }
         self.pipe.trained = true;
 
         self.classified = self.pipe.classify(&self.raw_segments);
@@ -222,6 +227,7 @@ impl eframe::App for MyceliumGui {
                         ui.selectable_value(&mut self.mode, "classical".into(), "Clássico (STFT)");
                         ui.selectable_value(&mut self.mode, "reservoir".into(), "Reservoir (ESN)");
                         ui.selectable_value(&mut self.mode, "cnn".into(), "CNN (ESN+CNN)");
+                        ui.selectable_value(&mut self.mode, "rf".into(), "Random Forest");
                     });
                 if ui.button("🏋 Treinar").clicked() { self.train_from_labels(); }
                 if ui.button("🔄 Reset").clicked() { self.reset_model(); }
@@ -232,8 +238,8 @@ impl eframe::App for MyceliumGui {
             });
 
             // ─── Pipeline nav (horizontal) ──────────────
-            let modes = ["classical", "reservoir", "cnn"];
-            let labels = ["⚡ Clássico", "🌀 Reservoir", "🧠 CNN"];
+            let modes = ["classical", "reservoir", "cnn", "rf"];
+            let labels = ["⚡ Clássico", "🌀 Reservoir", "🧠 CNN", "🌲 RF"];
             ui.horizontal(|ui| {
                 for (i, (label, m)) in labels.iter().zip(modes.iter()).enumerate() {
                     let sel = self.mode == *m;

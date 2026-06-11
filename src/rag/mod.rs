@@ -12,7 +12,11 @@ const AGNES_BASE: &str = "https://apihub.agnes-ai.com";
 const AGNES_MODEL: &str = "agnes-2.0-flash";
 const OLLAMA_URL: &str = "http://localhost:11434/api/generate";
 const OLLAMA_MODEL: &str = "tinyllama";
-const KEY_FILE: &str = "/root/agnes_ai_free_key.md";
+fn key_file() -> String {
+    std::env::var("AGNES_KEY_FILE").unwrap_or_else(|_|
+        "/root/agnes_ai_free_key.md".into()
+    )
+}
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Backend {
@@ -135,16 +139,16 @@ impl LlmClient {
 }
 
 fn read_api_key() -> String {
-    match std::fs::read_to_string(KEY_FILE) {
+    match std::fs::read_to_string(key_file()) {
         Ok(content) => {
             for line in content.lines() {
                 if let Some(val) = line.strip_prefix("key: ") {
                     return val.to_string();
                 }
             }
-            eprintln!("WARN: {} nao contem 'key: '", KEY_FILE);
+            eprintln!("WARN: {} nao contem 'key: '", key_file());
         }
-        Err(e) => eprintln!("WARN: nao foi ler {}: {}", KEY_FILE, e),
+        Err(e) => eprintln!("WARN: nao foi ler {}: {}", key_file(), e),
     }
     String::new()
 }
