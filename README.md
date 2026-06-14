@@ -1,6 +1,6 @@
 # mycelium-net 🍄
 
-**Computação neuromórfica com redes miceliais — pesquisa Fatec Capão Bonito.**
+**Computação neuromórfica com redes miceliais — pesquisa to.**
 
 Pipeline Rust + R para aquisição, processamento e classificação de sinais elétricos
 de fungos (micélio), usando Reservoir Computing + CNN como arquitetura de readout.
